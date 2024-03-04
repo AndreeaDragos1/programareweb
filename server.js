@@ -3,7 +3,7 @@ const http = require('http');
 const fs = require('fs'); // Modulul fs (file system) este folosit pentru a citi fișiere
 
 // Definim portul pe care serverul nostru va asculta
-const port = process.env.PORT || 3029;
+const port = process.env.PORT || 3015;
 
 // Creăm un server HTTP
 const server = http.createServer((req, res) => {
