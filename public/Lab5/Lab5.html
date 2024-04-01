@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>PRW 2024</title>
+<link rel="stylesheet" href="http://cti.ubm.ro/prw/05/style.css">
+<script src="http://cti.ubm.ro/prw/05/my.js"></script>
+<style>
+  #textSection1 {
+    border: 2px solid black; 
+    padding: 10px; 
+    margin-top: 20px; 
+    display: inline-block;
+    width: 45%; 
+  }
+
+  #textSection2 {
+    border: 2px solid black; 
+    padding: 10px;
+    margin-top: 20px; 
+    display: inline-block;
+    width: 45%;
+  }
+</style>
+</head>
+<body>
+<p>Programare Web - 05</p>
+<div id="container">
+  <div id='d1'>
+    <textarea id="textAreaPoly">
+      poly = [320,290, 100,360, 120,240, 320,290];
+      my.log("poly: " + poly);
+    </textarea>
+    <br/>
+    <textarea id="textAreaTitluri">
+      titluriCarti = ["Titlu Carte 1", "Titlu Carte 2", "Titlu Carte 3", "Titlu Carte 4", "Titlu Carte 5"];
+    </textarea>
+    <br/>
+    <button onclick="deseneazaPoly();">RUN Poly</button>
+    <button onclick="afiseazaTitluriCarti();">RUN Titluri Sync</button>
+    <button onclick="afiseazaTitluriAsincron();">RUN Titluri Async</button>
+    <button onclick="sterge();">CLEAR</button>
+  </div>
+
+  <div id='myconsole'>
+    <textarea id="textAreaOutput">
+      my console
+    </textarea>
+  </div>
+
+  <div id="textSection1">
+    Aceasta este prima secțiune de text. (Schimbare la fiecare 3 secunde)
+  </div>
+
+  <div id="textSection2">
+    Aceasta este a doua secțiune de text. (Schimbare la fiecare 5 secunde)
+  </div>
+</div>
+</body>
+<script>
+
+function schimbaCuloare1() {
+  var textSection1 = document.getElementById("textSection1");
+  var culoareIndex = 0; 
+  var colors = ["lightpink", "lightblue", "lightgreen"]; 
+
+  setInterval(function() {
+    textSection1.style.backgroundColor = colors[culoareIndex]; 
+    culoareIndex = (culoareIndex + 1) % colors.length; 
+  }, 3000);
+}
+
+
+function schimbaCuloare2() {
+  var textSection2 = document.getElementById("textSection2");
+  var colors = ["lightgreen", "lightblue", "lightyellow"]; 
+  var index = 0;
+
+  setInterval(function() {
+    textSection2.style.backgroundColor = colors[index]; 
+    index = (index + 1) % colors.length; 
+  }, 5000);
+}
+
+schimbaCuloare1();
+schimbaCuloare2();
+
+function deseneazaPoly() {
+  var text = document.getElementById("textAreaPoly").value; 
+  eval(text); 
+}
+
+function afiseazaTitluriCarti() {
+  var titluri = document.getElementById("textAreaTitluri").value; 
+  var output = document.getElementById("textAreaOutput"); 
+
+  var titluriArray = eval(titluri); 
+  output.value = "";
+
+  for (var i = 0; i < titluriArray.length; i++) {
+    output.value += (i + 1) + ". " + titluriArray[i] + "\n";
+  }
+}
+
+
+function afiseazaTitluriAsincron() {
+  var titluri = document.getElementById("textAreaTitluri").value; 
+  var output = document.getElementById("textAreaOutput"); 
+
+  var titluriArray = eval(titluri); 
+  output.value = ""; 
+
+  for (var i = 0; i < titluriArray.length; i++) {
+    (function (i) {
+      setTimeout(function () {
+        output.value += (i + 1) + ". " + titluriArray[i] + "\n";
+      }, 2000 * (i + 1));
+    })(i);
+  }
+}
+
+
+function sterge() {
+  document.getElementById("textAreaOutput").value = ''; 
+}
+</script>
+</html>

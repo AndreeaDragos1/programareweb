@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laborator 03 - Cărți</title> 
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    text-align: center; 
+  }
+  .book-row {
+    white-space: nowrap; 
+    overflow-x: auto;
+  }
+  .book {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-right: 10px; 
+    display: inline-block; 
+    vertical-align: top; 
+  }
+  .book img {
+    max-width: 200px;
+    max-height: 300px;
+    margin-bottom: 10px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Cărți</h1> 
+
+<div id="bookList" class="book-row"></div>
+
+<script>
+  var carti = [
+    {
+      titlu: "The Joy of JavaScript",
+      autor: "Luis Atencio",
+      an: 2021,
+      imagine: "The Joy of JavaScript.jpg"
+    },
+    {
+        titlu: "To Kill a Mockingbird",
+      autor: "Harper Lee",
+      an: 1960,
+      imagine: "To Kill a Mockingbird.JPG"
+    },
+    {
+      titlu: "Pride and prejudice",
+      autor: "Jane Austen",
+      an: 1813,
+      imagine: "Pride and prejudice.jpeg"
+    },
+    {
+      titlu: "The Great Gatsby",
+      autor: "F. Scott Fitzgerald",
+      an: 1925,
+      imagine: "The Great Gatsby.jpg"
+    },
+    {
+      titlu: "The Catcher in the Rye",
+      autor: "J.D. Salinger",
+      an: 1951,
+      imagine: "The Catcher in the Rye.jpg"
+    },
+    {
+      titlu: "Moby-Dick",
+      autor: "Herman Melville",
+      an: 1851,
+      imagine: "Moby-Dick.jpg"
+    }
+  ];
+
+  function construiesteListaCarti() {
+    var containerListaCarti = document.getElementById("bookList");
+
+    var currentRow;
+    carti.forEach(function(cartea, index) {
+      if (index % 3 === 0) {
+        currentRow = document.createElement("div");
+        currentRow.classList.add("book-row");
+        containerListaCarti.appendChild(currentRow);
+      }
+
+      var divCarte = document.createElement("div");
+      divCarte.classList.add("book");
+
+      var titluHeader = document.createElement("h2");
+      titluHeader.textContent = cartea.titlu;
+
+      var autorParagraf = document.createElement("p");
+      autorParagraf.textContent = "Autor: " + cartea.autor;
+
+      var anParagraf = document.createElement("p");
+      anParagraf.textContent = "An: " + cartea.an;
+
+      var imagine = document.createElement("img");
+      imagine.src = cartea.imagine;
+      imagine.alt = cartea.titlu;
+
+      divCarte.appendChild(imagine);
+      divCarte.appendChild(titluHeader);
+      divCarte.appendChild(autorParagraf);
+      divCarte.appendChild(anParagraf);
+
+      currentRow.appendChild(divCarte);
+    });
+  }
+
+  construiesteListaCarti();
+</script>
+
+</body>
+</html>

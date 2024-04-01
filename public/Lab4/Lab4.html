@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab4-1</title>
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    .highlight {
+        background-color: orange;
+    }
+</style>
+</head>
+<body>
+
+<table>
+    <thead>
+        <tr>
+            <th>Nr.</th>
+            <th>Book</th>
+            <th>Price</th>
+            <th>Option</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Javascript: Javascript basics from Beginners</td>
+            <td>19.99</td>
+            <td><input type="checkbox" class="highlightCheckbox"></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>JavaScript from Beginner to Professional</td>
+            <td>34.99</td>
+            <td><input type="checkbox" class="highlightCheckbox"></td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>JavaScript From Zero to Hero</td>
+            <td>26.24</td>
+            <td><input type="checkbox" class="highlightCheckbox"></td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>JavaScript: The Definitive Guide, 7th Edition</td>
+            <td>32.49</td>
+            <td><input type="checkbox" class="highlightCheckbox"></td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Eloquent JavaScript, 3rd Edition</td>
+            <td>20.94</td>
+            <td><input type="checkbox" class="highlightCheckbox"></td>
+        </tr>
+        <tr id="totalRow">
+            <td colspan="3" style="text-align:left">TOTAL</td>
+            <td id="totalPrice">0.00</td>
+        </tr>
+    </tbody>
+</table>
+
+<script>
+    const checkboxes = document.querySelectorAll('.highlightCheckbox');
+    const totalRow = document.getElementById('totalRow');
+    const totalPriceCell = document.getElementById('totalPrice');
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const isChecked = this.checked;
+            const row = this.parentElement.parentElement;
+            if (isChecked) {
+                row.classList.add('highlight');
+            } else {
+                row.classList.remove('highlight');
+            }
+            updateTotalPrice();
+        });
+    });
+
+    function updateTotalPrice() {
+        let totalPrice = 0;
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                const row = checkbox.parentElement.parentElement;
+                const priceCell = row.getElementsByTagName('td')[2];
+                totalPrice += parseFloat(priceCell.textContent);
+            }
+        });
+        totalPriceCell.textContent = totalPrice.toFixed(2);
+    }
+</script>
+
+</body>
+</html>
