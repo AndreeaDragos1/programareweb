@@ -24,3 +24,17 @@ server.listen(port, () => {
     console.log(`Serverul rulează la adresa http://localhost:${port}/`);
 });
 
+//lab9
+const express = require('express');
+const app = express();
+const PORT = 3015;
+
+app.get('/api/items', (req, res) => {
+    res.json(['/api/items', '/api/items/:week']);
+});
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
+//
+
