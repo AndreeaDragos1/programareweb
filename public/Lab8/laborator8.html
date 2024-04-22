@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cautare in text</title>
+    <style>
+        .highlight {
+            background-color: yellow;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cautare in text</h1>
+    <input type="text" id="searchInput" placeholder="Introduceți cuvântul sau litera">
+    <button onclick="searchAndHighlight()">Caută</button>
+    <div id="content">
+        <p>Castelul Bran, cunoscut și sub numele de Castelul lui Dracula, este situat în apropierea localității Bran, în județul Brașov din România. Acest castel impresionant datează din secolul al XIV-lea și este înconjurat de peisaje montane pitorești. Construit initial pentru a apăra împotriva invaziilor otomane, castelul a devenit celebru datorită asocierii sale cu legenda lui Dracula, inspirată de romanul lui Bram Stoker. Cu turnurile sale impunătoare și arhitectura sa gotică, Castelul Bran atrage anual numeroși turiști din întreaga lume. Vizitatorii pot explora incinta castelului, care găzduiește colecții de mobilier și obiecte istorice, oferind o incursiune în istoria și cultura românească.</p>
+    </div>
+
+    <script>
+        function searchAndHighlight() {
+            var searchText = document.getElementById("searchInput").value;
+            var content = document.getElementById("content").innerHTML;
+            var highlightedContent = content.replace(new RegExp(searchText, "gi"), '<span class="highlight">' + searchText + '</span>');
+            document.getElementById("content").innerHTML = highlightedContent;
+        }
+    </script>
+</body>
+</html>
