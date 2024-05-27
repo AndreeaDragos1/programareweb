@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Monitorizare Senzor</title>
+    <meta charset="utf-8">
+    <style>
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+        path.line {
+            fill: none;
+            stroke-width: 1px;
+            pointer-events: none;
+        }
+    </style>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+<body>
+    <button onClick="startData()"> Pull Data </button>
+    <div id="graph"></div>
+    <script>
+        var data = [[{ "x": 0, "y": 154.50225795359734 }]]; // Date inițiale de test
+        var colors = d3.scaleOrdinal(d3.schemeCategory10);
+        var margin = { top: 40, right: 40, bottom: 50, left: 60 };
+        var width = 900 - margin.left - margin.right;
+        var height = 450 - margin.top - margin.bottom;
+
+        var svg = d3.select("body").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        
+        svg.append("clipPath")
+            .attr("id", "clip")
+            .append("rect")
+            .attr("width", width)
+            .attr("height", height);
+
+        function updateChart(data) {
+            var x = d3.scaleLinear().range([0, width]);
+            var y = d3.scaleLinear().range([height, 0]);
+            var xAxis = d3.axisBottom(x);
+            var yAxis = d3.axisLeft(y);
+            var line = d3.line()
+                .x(function(d) { return x(d.x); })
+                .y(function(d) { return y(d.y); });
+
+            svg.selectAll(".line").remove();
+            svg.selectAll(".axis").remove();
+
+            var xDomain = d3.extent(data[0], function(d) { return d.x; });
+            var yDomain = d3.extent(data[0], function(d) { return d.y; });
+
+            x.domain([xDomain[0], xDomain[1]]);
+            y.domain([yDomain[0], yDomain[1]]);
+
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis);
+            
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis);
+
+            svg.append("path")
+                .datum(data[0])
+                .attr("class", "line")
+                .attr("clip-path", "url(#clip)")
+                .style("stroke", colors(0))
+                .attr("d", line);
+        }
+
+        updateChart(data);
+
+        var socket = io();
+
+        async function startData() {
+            var response = await fetch("http://localhost:3015/start");
+            const text = await response.text();
+            console.log(text);
+            console.log('Am lansat transmiterea datelor ..');
+        }
+
+        function addData(sensorData) {
+            data[0].push(sensorData);
+            console.log(data);
+            updateChart(data);
+        }
+
+        socket.on("chat", addData);
+    </script>
+</body>
+</html>
